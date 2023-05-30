@@ -1,78 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eliminação de Gauss</title>
+    <title>Calculadora de Sistemas Lineares</title>
+    <script>
+        function calcularSistemaLinear() {
+            var opcao = document.getElementById("opcao").value;
+            var n = parseInt(document.getElementById("numero-equacoes").value);
+            var matrizA = [];
+            var vetorB = [];
 
-  <style>
-    .input-container {
-      margin-bottom: 10px;
-    }
-  </style>
+            for (var i = 1; i <= n; i++) {
+                var linha = [];
+                for (var j = 1; j <= n; j++) {
+                    linha.push(parseFloat(document.getElementById("a-" + i + "-" + j).value));
+                }
+                matrizA.push(linha);
+                vetorB.push(parseFloat(document.getElementById("b-" + i).value));
+            }
 
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/calcular", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var resposta = JSON.parse(xhr.responseText);
+                    exibirSolucao(resposta.x);
+                }
+            };
+            var data = JSON.stringify({
+                "opcao": opcao,
+                "matrizA": matrizA,
+                "vetorB": vetorB
+            });
+            xhr.send(data);
+        }
+
+        function exibirSolucao(solucao) {
+            var solucoesDiv = document.getElementById("solucoes");
+            solucoesDiv.innerHTML = "";
+
+            for (var i = 0; i < solucao.length; i++) {
+                var p = document.createElement("p");
+                p.innerHTML = "x" + (i + 1) + " = " + solucao[i];
+                solucoesDiv.appendChild(p);
+            }
+        }
+    </script>
 </head>
-<body>
 
-  <h1>Eliminação de Gauss</h1>
-  
-  <div class="input-container">
-    <label for="matriz-input">Matriz (separe os valores por vírgulas e as linhas por ponto-e-vírgula):</label>
-    <textarea id="matriz-input" rows="4" cols="50"></textarea>
-  </div>
+    <body>
+        <h1>Calculadora de Sistemas Lineares</h1>
+        <p>Opções:</p>
+        <select id="opcao">
+            <option value="1">Eliminação de Gauss</option>
+            <option value="2">Gauss-Seidel</option>
+        </select>
+        <br><br>
+        <label>Número de equações:</label>
+        <input type="number" id="numero-equacoes">
+        <br><br>
+        <div id="coeficientes">
+            <!-- Aqui serão adicionados os campos dinamicamente -->
+        </div>
+        <br>
+        <button onclick="calcularSistemaLinear()">Calcular</button>
+        <br><br>
+        <div id="solucoes"></div>
 
-  <button onclick="executarEliminacaoGauss()">Calcular</button>
+        <script>
+            var numeroEquacoesInput = document.getElementById("numero-equacoes");
 
-  <div id="resultado"></div>
-  
-  <script>
-    function eliminacaoGauss(matriz) {
-      const n = matriz.length;
+            numeroEquacoesInput.addEventListener("change", function () {
+                var numeroEquacoes = parseInt(numeroEquacoesInput.value);
+                var coeficientesDiv = document.getElementById("coeficientes");
+                coeficientesDiv.innerHTML = "";
 
+                for (var i = 1; i <= numeroEquacoes; i++) {
+                    var linhaDiv = document.createElement("div");
 
-      for (let i = 0; i < n - 1; i++) {
+                    for (var j = 1; j <= numeroEquacoes; j++) {
+                        var input = document.createElement("input");
+                        input.type = "number";
+                        input.id = "a-" + i + "-" + j;
+                        linhaDiv.appendChild(input);
+                    }
 
-        let pivo = Math.abs(matriz[i][i]);
-        let pivotRow = i;
+                    var bInput = document.createElement("input");
+                    bInput.type = "number";
+                    bInput.id = "b-" + i;
+                    linhaDiv.appendChild(bInput);
 
-        for (let j = i + 1; j < n; j++) {
-          if (Math.abs(matriz[j][i]) > pivot) {
-            pivo = Math.abs(matriz[j][i]);
-            pivotRow = j;
-          }
-        }
+                    coeficientesDiv.appendChild(linhaDiv);
+                }
+            });
+        </script>
 
-        if (pivotRow !== i) {
-          [matriz[i], matriz[pivotRow]] = [matriz[pivotRow], matriz[i]];
-        }
-
-
-        for (let k = i + 1; k < n; k++) {
-          const factor = matriz[k][i] / matriz[i][i];
-
-          for (let j = i; j < n + 1; j++) {
-            matriz[k][j] -= factor * matriz[i][j];
-          }
-        }
-      }
-
-      const solucao = new Array(n);
-
-      for (let i = n - 1; i >= 0; i--) {
-        solucao[i] = matriz[i][n];
-
-        for (let j = i + 1; j < n; j++) {
-          solucao[i] -= matriz[i][j] * solucao[j];
-        }
-
-        solucao[i] /= matriz[i][i];
-      }
-
-      return solucao;
-    }
-  </script>
-</body>
+    </body>
 </html>
+
 
   
