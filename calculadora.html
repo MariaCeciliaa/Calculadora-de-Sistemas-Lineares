@@ -3,36 +3,66 @@
 <head>
     <script src="main.js"></script>
     <title>Calculadora de Sistemas Lineares</title>
+   
+    <style>
+        body {
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .matrix-table {
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .matrix-table td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        #etapas {
+            margin-top: 20px;
+        }
+
+        #etapas h2 {
+            margin-bottom: 5px;
+        }
+
+        #etapas p {
+            margin-top: 0;
+        }
+    </style>
 </head>
+
 <body>
 
-    <div style="max-width: 600px; margin: 0 auto;">
-        <h1>Calculadora de Sistemas Lineares</h1>
-        <p>Opções:</p>
-        <select id="opcao">
-            <option value="1">Eliminação de Gauss</option>
-            <option value="2">Gauss-Seidel</option>
-        </select>
-        <br><br>
-        <label>Ordem da Matriz:</label>
-        <input type="number" id="numero-equacoes">
-        <br><br>
-
-        <div id="coeficientes">
-            <p>Matriz A:</p>
-            <div>
-                <!-- Aqui serão adicionados os campos dinamicamente -->
-            </div>
-            <p>Matriz B:</p>
-            <div>
-                <!-- Aqui serão adicionados os campos dinamicamente -->
-            </div>
-        </div>
-        <br>
-        <button id="botaoCalcular">Calcular</button>
-        <br><br>
-        <div id="solucoes"></div>
+    <h1>Calculadora de Sistemas Lineares</h1>
+    <p>Opções:</p>
+    <select id="opcao">
+        <option value="1">Eliminação de Gauss</option>
+        <option value="2">Gauss-Seidel</option>
+    </select>
+    <br><br>
+    <label>Ordem da Matriz:</label>
+    <input type="number" id="numero-equacoes">
+    <br><br>
+    <div id="coeficientes">
     </div>
+    <br>
+    <button id="botaoCalcular">Calcular</button>
+    <br><br>
+    <div id="solucoes"></div>
+    <div id="etapas"></div>
 
+    
 </body>
 </html>
