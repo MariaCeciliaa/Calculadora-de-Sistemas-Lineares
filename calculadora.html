@@ -1,50 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="main.js"></script>
-    <title>Calculadora de Sistemas Lineares</title>
-   
     <style>
         body {
-            max-width: 600px;
+            max-width: 600rem;
             margin: 0 auto;
+            padding: 20px;
             font-family: Arial, sans-serif;
         }
 
         h1 {
-            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
         }
 
         label {
             font-weight: bold;
         }
 
+        select,
+        input[type="number"] {
+            margin-bottom: 10px;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .etapa {
+            margin-bottom: 20px;
+        }
+
+        .etapa h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
         .matrix-table {
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-bottom: 10px;
         }
 
         .matrix-table td {
-            border: 1px solid black;
             padding: 5px;
-        }
-
-        #etapas {
-            margin-top: 20px;
-        }
-
-        #etapas h2 {
-            margin-bottom: 5px;
+            text-align: center;
+            border: 1px solid black;
         }
 
         #etapas p {
-            margin-top: 0;
+            margin: 5px 0;
         }
     </style>
-</head>
 
+    <script src="main.js"></script>
+    <title>Calculadora de Sistemas Lineares</title>
+</head>
 <body>
 
+<div>
     <h1>Calculadora de Sistemas Lineares</h1>
     <p>Opções:</p>
     <select id="opcao">
@@ -55,14 +84,15 @@
     <label>Ordem da Matriz:</label>
     <input type="number" id="numero-equacoes">
     <br><br>
-    <div id="coeficientes">
-    </div>
+
+    <div id="coeficientes"></div>
+
     <br>
     <button id="botaoCalcular">Calcular</button>
     <br><br>
-    <div id="solucoes"></div>
     <div id="etapas"></div>
+    <div id="solucoes"></div>
+</div>
 
-    
 </body>
 </html>
