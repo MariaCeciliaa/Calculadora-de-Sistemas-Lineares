@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var numeroEquacoesInput = document.getElementById("numero-equacoes");
     numeroEquacoesInput.addEventListener("change", function () {
         var numeroEquacoes = parseInt(numeroEquacoesInput.value);
+
+        if (numeroEquacoes <= 1) {
+            alert("A ordem da matriz deve ser maior que 1.");
+            return;
+          }
+          
         var coeficientesDiv = document.getElementById("coeficientes");
         coeficientesDiv.innerHTML = "";
 
