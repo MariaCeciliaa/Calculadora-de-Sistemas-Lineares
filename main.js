@@ -183,9 +183,11 @@ function calcularSistemaLinear() {
         solucoesDiv.innerHTML = "";
 
         var solucoesTexto = document.createElement("p");
-        solucoesTexto.textContent = "Soluções: " + resultado.solucoes.map(function (solucao) {
-            return solucao.toFixed(5);
-        }).join(", ");
+        solucoesTexto.textContent += "O critério de parada foi atingido, então nossa aproximação será:";
+        solucoesTexto.textContent += resultado.solucoes.map(function (solucao, index) {
+            return " x" + (index + 1) + " = " + solucao.toFixed(5);
+        }).join(",");
+
         solucoesDiv.appendChild(solucoesTexto);
     }
 }
