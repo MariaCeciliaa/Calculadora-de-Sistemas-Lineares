@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
         calcularSistemaLinear();
     });
 
+    var botaoLimpar = document.getElementById('botaoLimpar');
+    botaoLimpar.addEventListener('click', function () {
+      limparCampos();
+    });
+
     var numeroEquacoesInput = document.getElementById("numero-equacoes");
     numeroEquacoesInput.addEventListener("change", function () {
         var numeroEquacoes = parseInt(numeroEquacoesInput.value);
@@ -12,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert("A ordem da matriz deve ser maior que 1.");
             return;
           }
-          
+
         var coeficientesDiv = document.getElementById("coeficientes");
         coeficientesDiv.innerHTML = "";
 
@@ -48,6 +53,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function limparCampos() {
+    var inputs = document.querySelectorAll("input[type='number']");
+
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].value = "";
+    }
+}
 
 function gerarInputsChuteInicial(numeroEquacoes) {
     var chuteInicialDiv = document.getElementById("chute-inicial");
