@@ -68,7 +68,7 @@
         }
     </style>
 
-
+    <script src="main.js"></script>
     <title>Calculadora de Sistemas Lineares</title>
     
 </head>
@@ -85,9 +85,9 @@
         <label>Ordem da Matriz:</label>
         <input type="number" id="numero-equacoes">
         <br><br>
-    
+
         <div id="coeficientes"></div>
-    
+
         <div id="gauss-seidel-inputs" style="display: none;">
             <p>Chute Inicial:</p>
             <div id="chute-inicial"></div>
@@ -99,57 +99,12 @@
             <input type="number" id="iteracoes-maximas">
             <br><br>
         </div>
-    
+
         <br>
         <button id="botaoCalcular">Calcular</button>
         <br><br>
         <div id="etapas"></div>
         <div id="solucoes"></div>
-        
     </div>
-
-    <script src="main.js"></script>
-    <script>
-        document.getElementById("opcao").addEventListener("change", function () {
-            var gaussSeidelInputs = document.getElementById("gauss-seidel-inputs");
-            if (this.value === "2") {
-                gaussSeidelInputs.style.display = "block";
-            } else {
-                gaussSeidelInputs.style.display = "none";
-            }
-        });
-    
-        document.getElementById("botaoCalcular").addEventListener("click", function () {
-            var opcao = parseInt(document.getElementById("opcao").value);
-            var ordem = parseInt(document.getElementById("numero-equacoes").value);
-            var matriz = [];
-    
-            for (var i = 0; i < ordem; i++) {
-                matriz[i] = [];
-                for (var j = 0; j < ordem + 1; j++) {
-                    matriz[i][j] = parseFloat(document.getElementById("coeficiente-" + i + "-" + j).value);
-                }
-            }
-    
-            if (opcao === 1) {
-                var resultado = calcularSistemaLinearGauss(matriz);
-                exibirEtapas(resultado[0]);
-                exibirSolucao(resultado[1]);
-            } else if (opcao === 2) {
-                var chuteInicial = [];
-                for (var i = 0; i < ordem; i++) {
-                    chuteInicial[i] = parseFloat(document.getElementById("chute-inicial" + i).value);
-                }
-                var precisao = parseFloat(document.getElementById("precisao").value);
-                var iteracoesMaximas = parseInt(document.getElementById("iteracoes-maximas").value);
-    
-                var resultado = calcularSistemaLinearGaussSeidel(matriz, chuteInicial, precisao, iteracoesMaximas);
-                exibirEtapas(resultado[0]);
-                exibirSolucao(resultado[1]);
-            }
-        });
-    </script>
-    
-
 </body>
 </html>
