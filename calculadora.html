@@ -68,8 +68,9 @@
         }
     </style>
 
-    <script src="main.js"></script>
+
     <title>Calculadora de Sistemas Lineares</title>
+    
 </head>
 <body>
 
@@ -99,6 +100,7 @@
             <br><br>
         </div>
     
+        <br>
         <button id="botaoCalcular">Calcular</button>
         <br><br>
         <div id="etapas"></div>
@@ -106,6 +108,7 @@
         
     </div>
 
+    <script src="main.js"></script>
     <script>
         document.getElementById("opcao").addEventListener("change", function () {
             var gaussSeidelInputs = document.getElementById("gauss-seidel-inputs");
@@ -135,7 +138,7 @@
             } else if (opcao === 2) {
                 var chuteInicial = [];
                 for (var i = 0; i < ordem; i++) {
-                    chuteInicial[i] = parseFloat(document.getElementById("chute-inicial-" + i).value);
+                    chuteInicial[i] = parseFloat(document.getElementById("chute-inicial" + i).value);
                 }
                 var precisao = parseFloat(document.getElementById("precisao").value);
                 var iteracoesMaximas = parseInt(document.getElementById("iteracoes-maximas").value);
@@ -146,14 +149,6 @@
             }
         });
     </script>
-    
-    </body>
-    </html>
-    
-    
-    
-    
-    
     
 
 </body>
