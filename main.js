@@ -102,7 +102,7 @@ function calcularSistemaLinear() {
             etapaDiv.classList.add("etapa");
 
             var titulo = document.createElement("h2");
-            titulo.textContent = "Etapa " + (i + 1);
+            titulo.textContent = "Etapa " + i ;
             etapaDiv.appendChild(titulo);
 
             var tabela = document.createElement("table");
@@ -147,43 +147,34 @@ function calcularSistemaLinear() {
 
         var etapasDiv = document.getElementById("etapas");
         etapasDiv.innerHTML = "";
-
+    
         var resultado = gaussSeidel(coeficientes, chuteInicial, precisao, iteracoesMaximas);
-
+    
         for (var i = 0; i < resultado.etapas.length; i++) {
-            var etapa = resultado.etapas[i];
-            var etapaDiv = document.createElement("div");
-            etapaDiv.classList.add("etapa");
-
-            var titulo = document.createElement("h2");
-            titulo.textContent = "Iteração " + (i + 1);
-            etapaDiv.appendChild(titulo);
-
-            var tabela = document.createElement("table");
-            tabela.classList.add("matrix-table");
-
-            for (var j = 0; j < etapa.length; j++) {
-                var linha = document.createElement("tr");
-
-                for (var k = 0; k < etapa[j].length; k++) {
-                    var valor = etapa[j][k];
-                    var coluna = document.createElement("td");
-                    coluna.textContent = valor.toFixed(5);
-                    linha.appendChild(coluna);
-                }
-
-                tabela.appendChild(linha);
-            }
-
-            etapaDiv.appendChild(tabela);
-            etapasDiv.appendChild(etapaDiv);
+          var etapa = resultado.etapas[i];
+          var etapaDiv = document.createElement("div");
+          etapaDiv.classList.add("etapa");
+    
+          var titulo = document.createElement("h2");
+          titulo.textContent = "Iteração " + etapa.iteracao;
+          etapaDiv.appendChild(titulo);
+    
+          var xnIteracaoTexto = document.createElement("p");
+          xnIteracaoTexto.textContent = "Soluções: " + etapa.xnIteracao;
+          etapaDiv.appendChild(xnIteracaoTexto);
+    
+          var criterioParadaTexto = document.createElement("p");
+          criterioParadaTexto.textContent = "Critério de Parada: " + etapa.criterioParada.toFixed(5);
+          etapaDiv.appendChild(criterioParadaTexto);
+    
+          etapasDiv.appendChild(etapaDiv);
         }
 
         var solucoesDiv = document.getElementById("solucoes");
         solucoesDiv.innerHTML = "";
 
         var solucoesTexto = document.createElement("p");
-        solucoesTexto.textContent += "O critério de parada foi atingido, então nossa aproximação será:";
+        solucoesTexto.textContent += "A aproximação será: ";
         solucoesTexto.textContent += resultado.solucoes.map(function (solucao, index) {
             return " x" + (index + 1) + " = " + solucao.toFixed(5);
         }).join(",");
@@ -249,38 +240,46 @@ function gaussSeidel(coeficientes, chuteInicial, precisao, iteracoesMaximas) {
     var etapas = [];
     var n = coeficientes.length;
     var solucoes = chuteInicial.slice();
-
+  
     for (var iteracao = 0; iteracao < iteracoesMaximas; iteracao++) {
-        var iteracaoAnterior = solucoes.slice();
-
-        for (var i = 0; i < n; i++) {
-            var soma = 0;
-
-            for (var j = 0; j < n; j++) {
-                if (j !== i) {
-                    soma += coeficientes[i][j] * solucoes[j];
-                }
-            }
-
-            solucoes[i] = (coeficientes[i][n] - soma) / coeficientes[i][i];
+      var iteracaoAnterior = solucoes.slice();
+  
+      for (var i = 0; i < n; i++) {
+        var soma = 0;
+  
+        for (var j = 0; j < n; j++) {
+          if (j !== i) {
+            soma += coeficientes[i][j] * solucoes[j];
+          }
         }
-
-        etapas.push(iteracaoAnterior.map(function (valor, index) {
-            return [valor, solucoes[index]];
-        }));
-
-        var normaDiferenca = normaMaxima(subtrairVetores(solucoes, iteracaoAnterior));
-
-        if (normaDiferenca <= precisao) {
-            break;
-        }
+  
+        solucoes[i] = (coeficientes[i][n] - soma) / coeficientes[i][i];
+      }
+  
+      var xnIteracao = solucoes.map(function (solucao, index) {
+        return "x" + (index + 1) + " = " + solucao.toFixed(5);
+      }).join(", ");
+  
+      var diferenca = subtrairVetores(solucoes, iteracaoAnterior);
+      var criterioParada = normaMaxima(diferenca);
+  
+      etapas.push({
+        iteracao: iteracao + 1,
+        xnIteracao: xnIteracao,
+        criterioParada: criterioParada
+      });
+  
+      if (criterioParada <= precisao) {
+        break;
+      }
     }
-
+  
     return {
-        etapas: etapas,
-        solucoes: solucoes
+      etapas: etapas,
+      solucoes: solucoes
     };
-}
+  }
+  
 
 function subtrairVetores(vetor1, vetor2) {
     var resultado = [];
