@@ -239,9 +239,9 @@ function calcularSistemaLinear() {
           xnIteracaoTexto.textContent = "Soluções: " + etapa.xnIteracao;
           etapaDiv.appendChild(xnIteracaoTexto);
     
-          var criterioParadaTexto = document.createElement("p");
-          criterioParadaTexto.textContent = "Critério de Parada: " + etapa.criterioParada.toFixed(5);
-          etapaDiv.appendChild(criterioParadaTexto);
+          var normaDiferencaTexto = document.createElement("p");
+          normaDiferencaTexto.textContent = "Critério de Parada: " + etapa.diferenca;
+          etapaDiv.appendChild(normaDiferencaTexto);
     
           etapasDiv.appendChild(etapaDiv);
         }
@@ -341,13 +341,14 @@ function eliminacaoDeGauss(coeficientes) {
 
 
 
-function gaussSeidel(coeficientes, chuteInicial, precisao, iteracoesMaximas) {
+  function gaussSeidel(coeficientes, chuteInicial, precisao, iteracoesMaximas) {
     var etapas = [];
     var n = coeficientes.length;
     var solucoes = chuteInicial.slice();
   
     for (var iteracao = 0; iteracao < iteracoesMaximas; iteracao++) {
       var iteracaoAnterior = solucoes.slice();
+      
   
       for (var i = 0; i < n; i++) {
         var soma = 0;
@@ -366,15 +367,16 @@ function gaussSeidel(coeficientes, chuteInicial, precisao, iteracoesMaximas) {
       }).join(", ");
   
       var diferenca = subtrairVetores(solucoes, iteracaoAnterior);
-      var criterioParada = normaMaxima(diferenca);
-  
+      var normaDiferenca = normaMaxima(diferenca);
+      
       etapas.push({
         iteracao: iteracao + 1,
         xnIteracao: xnIteracao,
-        criterioParada: criterioParada
+        diferenca: diferenca,
+        normaDiferenca: normaDiferenca
       });
   
-      if (criterioParada <= precisao) {
+      if (normaDiferenca <= precisao) {
         break;
       }
     }
@@ -385,27 +387,23 @@ function gaussSeidel(coeficientes, chuteInicial, precisao, iteracoesMaximas) {
     };
   }
   
-
-function subtrairVetores(vetor1, vetor2) {
+  function subtrairVetores(vetor1, vetor2) {
     var resultado = [];
-
+  
     for (var i = 0; i < vetor1.length; i++) {
-        resultado.push(vetor1[i] - vetor2[i]);
+      resultado.push(vetor1[i] - vetor2[i]);
     }
-
+  
     return resultado;
-}
-
-function normaMaxima(vetor) {
-    var maximo = Math.abs(vetor[0]);
-
-    for (var i = 1; i < vetor.length; i++) {
-        var valorAbsoluto = Math.abs(vetor[i]);
-
-        if (valorAbsoluto > maximo) {
-            maximo = valorAbsoluto;
-        }
+  }
+  
+  function normaMaxima(vetor) {
+    var norma = [];
+  
+    for (var i = 0; i < vetor.length; i++) {
+      norma.push(Math.abs(vetor[i]));
     }
-
-    return maximo;
-}
+  
+    return norma;
+  }
+  
